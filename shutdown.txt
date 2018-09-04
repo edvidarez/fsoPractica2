@@ -1,0 +1,4 @@
+shutdown desde el archivo
+otra linea 
+shutdown
+:)
