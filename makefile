@@ -1,11 +1,22 @@
-init : init.c
-		gcc -c init init.c
+ll :	init getty sh
 
-getty : getty.c
-		gcc -c getty getty.c 
-sh : sh
-		gcc -c sh sh.c 
+init : init.o
+		gcc -o init init.o 
 
+init.o : init.c
+		gcc -c init.c
+
+getty : getty.o
+		gcc -o getty getty.o 
+
+getty.o : getty.c
+		gcc -c getty.c
+
+sh : sh.o
+		gcc -o sh sh.o 
+
+sh.o : sh.c
+		gcc -c sh.c
 
 clean :
-	rm    init getty sh
+	rm init.o getty.o sh.o init getty sh
