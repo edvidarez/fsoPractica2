@@ -20,20 +20,19 @@ void createChild(int n,int level){
 		return;
 	int p = fork();
 	if(p==0){
-
+		proc();
 	} else {
 
 		pids[level] = p;
 		createChild(n,level+1);
 		int status;
 		wait(&status);
-		printf("Status es: %d\t\t y el pid del hijo que termino es: %d\n",status>>8,getpid());
+		//printf("Status es: %d\t\t y el pid del hijo que termino es: %d\n",status>>8,getpid());
 		if(shouldShutdown()){
-			printf("shouldShutdown\n");
+			//printf("shouldShutdown\n");
 			exit(0);
 		}
-		proc();
-		createChild(1,0);
+		createChild(level+1,level);
 	}
 }
 int shouldShutdown(){
@@ -50,23 +49,21 @@ int shouldShutdown(){
 	   }
 	   return 0;
 }
-
+int resetShutdownFile(){
+	FILE* file = fopen("shutdown.txt", "w");
+	fprintf(file, "\n");
+}
 
 int main(){
 
-	 createChild(NPROCS,0);
-	// execlp("xterm","xterm","-e","ls",NULL);
-	 // searchShutdown();
-	
-
+	resetShutdownFile();
+	createChild(NPROCS,0);
 }
 
 void proc()
 {	
-	printf("iniciado pid: %d\n",getpid() );
-	// execlp("xterm","xterm","-e","./getty",NULL);
-	int res = execlp("xterm", "xterm", "-e","./getty", NULL);
-	printf("res %d:\n",res);
+	//printf("iniciado pid: %d\n",getpid() );
+	execlp("xterm", "xterm", "-e","./getty", NULL);
 
 }
 
